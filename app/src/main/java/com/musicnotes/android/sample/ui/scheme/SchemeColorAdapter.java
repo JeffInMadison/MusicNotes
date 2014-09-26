@@ -36,7 +36,7 @@ class SchemeColorAdapter extends ArrayAdapter<SchemeColor> {
 
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.schemeColorCheckBox);
         checkBox.setText(schemeColor.getName());
-        checkBox.setTextColor(Integer.parseInt(schemeColor.getId()));
+        checkBox.setTextColor(schemeColor.getId());
 
         return convertView;
     }

@@ -1,11 +1,9 @@
 package com.musicnotes.android.sample.db;
 
 import android.test.AndroidTestCase;
-import android.test.InstrumentationTestCase;
 
+import com.musicnotes.android.sample.model.Scheme;
 import com.musicnotes.android.sample.model.SchemeColor;
-
-import junit.framework.TestCase;
 
 import java.util.List;
 
@@ -60,7 +58,22 @@ public class DbHelperTest extends AndroidTestCase {
 
     }
 
+    public void testGetSchemes() throws Exception {
+        DbHelper dbHelper = new DbHelper(getContext());
+        List<SchemeColor> schemeColors = dbHelper.getSchemeColors();
+
+        dbHelper.addScheme("test", schemeColors);
+        dbHelper.addScheme("foo", schemeColors);
+
+        List<Scheme> result = dbHelper.getAllSchemes();
+        assertEquals(2, result.size());
+    }
+
     public void testGetSchemeNames() throws Exception {
+        DbHelper dbHelper = new DbHelper(getContext());
+
+
+        List<Scheme> test = dbHelper.getAllSchemes();
 
     }
 

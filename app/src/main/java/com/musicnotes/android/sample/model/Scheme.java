@@ -1,16 +1,20 @@
 package com.musicnotes.android.sample.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Jeff on 9/25/2014.
  * Copyright JeffInMadison.com 2014
  */
-public class Scheme {
+public class Scheme implements Parcelable {
 
     int mId;
     String mName;
-    List<SchemeColor> mColorList;
+    ArrayList<SchemeColor> mColorList;
 
     public int getId() {
         return mId;
@@ -32,11 +36,43 @@ public class Scheme {
         return mColorList;
     }
 
-    public void setColorList(final List<SchemeColor> colorList) {
+    public void setColorList(final ArrayList<SchemeColor> colorList) {
         mColorList = colorList;
     }
 
     public String getColorListAsHtmlColoredString() {
         return "";
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.mId);
+        dest.writeString(this.mName);
+        dest.writeSerializable(this.mColorList);
+    }
+
+    public Scheme() {
+    }
+
+    private Scheme(Parcel in) {
+        this.mId = in.readInt();
+        this.mName = in.readString();
+        this.mColorList = (ArrayList<SchemeColor>) in.readSerializable();
+    }
+
+    public static final Parcelable.Creator<Scheme> CREATOR = new Parcelable.Creator<Scheme>() {
+        public Scheme createFromParcel(Parcel source) {
+            return new Scheme(source);
+        }
+
+        public Scheme[] newArray(int size) {
+            return new Scheme[size];
+        }
+    };
 }

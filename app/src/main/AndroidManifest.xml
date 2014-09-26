@@ -20,7 +20,10 @@
             android:name="com.musicnotes.android.sample.ui.scheme.AddSchemeActivity"
             android:label="@string/title_activity_select_color" >
         </activity>
-
+        <activity
+            android:name="com.musicnotes.android.sample.ui.details.DetailsActivity"
+            android:label="@string/title_activity_details" >
+        </activity>
     </application>
 
 </manifest>

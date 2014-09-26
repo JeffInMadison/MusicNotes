@@ -13,7 +13,10 @@ import com.musicnotes.android.sample.model.SchemeColor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jeff on 9/25/2014.
@@ -111,7 +114,7 @@ public class DbHelper extends SQLiteOpenHelper {
             results = new ArrayList<SchemeColor>();
             Cursor cursor = db.query(TABLE_COLORS, COLORS_COLUMNS, null, null, null, null, KEY_COLOR_NAME);
             while (cursor.moveToNext()) {
-                String id = cursor.getString(cursor.getColumnIndex(KEY_COLOR_ID));
+                int id = cursor.getInt(cursor.getColumnIndex(KEY_COLOR_ID));
                 String name = cursor.getString(cursor.getColumnIndex(KEY_COLOR_NAME));
                 SchemeColor schemeColor = new SchemeColor(name, id);
                 results.add(schemeColor);
@@ -159,6 +162,47 @@ public class DbHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public List<Scheme> getAllSchemes() {
+        List<Scheme> result = Collections.emptyList();
+        HashMap<String,ArrayList<SchemeColor>> schemeMap = new HashMap<String, ArrayList<SchemeColor>>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor;
+        if (db != null) {
+            result = new ArrayList<Scheme>();
+            String query = "SELECT schemes.name, colors.name as color_name, colors.id from schemes join colors on schemes.id = colors.id order by schemes.name";
+            cursor = db.rawQuery(query, null);
+
+            while (cursor.moveToNext()) {
+                Scheme scheme = new Scheme();
+
+                String schemeName = cursor.getString(cursor.getColumnIndex(KEY_SCHEME_NAME));
+                SchemeColor schemeColor =
+                        new SchemeColor(cursor.getString(cursor.getColumnIndex("color_name")),
+                                        cursor.getInt(cursor.getColumnIndex(KEY_COLOR_ID)));
+
+                if (schemeMap.containsKey(schemeName)) {
+                    schemeMap.get(schemeName).add(schemeColor);
+                } else {
+                    ArrayList<SchemeColor> schemeList = new ArrayList<SchemeColor>();
+                    schemeList.add(schemeColor);
+                    schemeMap.put(schemeName, schemeList);
+                }
+            }
+
+            for (Map.Entry<String, ArrayList<SchemeColor>> entry : schemeMap.entrySet()) {
+                Scheme scheme = new Scheme();
+                scheme.setName(entry.getKey());
+                scheme.setColorList(entry.getValue());
+                result.add(scheme);
+            }
+
+            db.close();
+        }
+        return result;
+
+    }
+
+
     public List<String> getSchemeNames() {
         List<String> result = Collections.emptyList();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -199,7 +243,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     KEY_SCHEME_ID);
             cursor = db.rawQuery(query, new String[] {schemeName});
             while (cursor.moveToNext()) {
-                String id = cursor.getString(cursor.getColumnIndex(KEY_SCHEME_ID));
+                int id = cursor.getInt(cursor.getColumnIndex(KEY_SCHEME_ID));
                 String name = cursor.getString(cursor.getColumnIndex(KEY_SCHEME_NAME));
                 result.add(new SchemeColor(name, id));
             }
@@ -207,4 +251,5 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return result;
     }
+
 }
