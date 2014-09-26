@@ -63,6 +63,7 @@ public class Scheme implements Parcelable {
     private Scheme(Parcel in) {
         this.mId = in.readInt();
         this.mName = in.readString();
+        //noinspection unchecked
         this.mColorList = (ArrayList<SchemeColor>) in.readSerializable();
     }
 

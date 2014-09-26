@@ -1,25 +1,23 @@
 package com.musicnotes.android.sample.ui.scheme;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.SimpleCursorAdapter;
 
 import com.musicnotes.android.sample.R;
 import com.musicnotes.android.sample.model.SchemeColor;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
 * Created by Jeff on 9/25/2014.
 * Copyright JeffInMadison.com 2014
 */
 class SchemeColorAdapter extends ArrayAdapter<SchemeColor> {
+    @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = SchemeColorAdapter.class.getSimpleName();
 
     public SchemeColorAdapter(final Context context, final List<SchemeColor> objects) {

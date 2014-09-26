@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.musicnotes.android.sample.R;
 
 public class AddSchemeActivity extends Activity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

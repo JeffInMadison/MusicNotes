@@ -1,6 +1,5 @@
 package com.musicnotes.android.sample.ui.main;
 
-import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,8 +22,8 @@ import java.util.List;
  * Copyright JeffInMadison.com 2014
  */
 public class MainFragment extends ListFragment implements ActionMode.Callback, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
+    @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = MainFragment.class.getSimpleName();
-    private SchemeAdapter mListAdapter;
     private List<Scheme> mSchemeList;
     private ActionMode mActionMode;
 
@@ -43,8 +42,8 @@ public class MainFragment extends ListFragment implements ActionMode.Callback, A
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSchemeList = new DbHelper(getActivity()).getAllSchemes();
-        mListAdapter = new SchemeAdapter(getActivity(), mSchemeList);
-        setListAdapter(mListAdapter);
+        SchemeAdapter listAdapter = new SchemeAdapter(getActivity(), mSchemeList);
+        setListAdapter(listAdapter);
         setHasOptionsMenu(true);
 
     }
@@ -81,6 +80,7 @@ public class MainFragment extends ListFragment implements ActionMode.Callback, A
             detailsIntent.putExtra(DetailsActivity.ARG_SCHEME, mSchemeList.get(position));
             startActivity(detailsIntent);
         } else {
+            // TODO handle item selection in actionMode
         }
     }
 

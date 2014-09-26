@@ -1,18 +1,14 @@
 package com.musicnotes.android.sample.ui.scheme;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.musicnotes.android.sample.R;
@@ -23,7 +19,9 @@ import com.musicnotes.android.sample.util.StringUtils;
 import java.util.List;
 
 public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnClickListener {
+    @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = AddSchemeFragment.class.getSimpleName();
+
     private ListView mColorListView;
     private List<SchemeColor> mSchemeColors;
     private SchemeColorAdapter mSchemeColorAdapter;

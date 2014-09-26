@@ -1,7 +1,6 @@
 package com.musicnotes.android.sample.ui.details;
 
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,6 +13,7 @@ import java.util.List;
  * Copyright JeffInMadison.com 2014
  */
 public class ColorPagerAdapter extends PagerAdapter {
+    @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = ColorPagerAdapter.class.getSimpleName();
 
     private final List<SchemeColor> mSchemeColorList;

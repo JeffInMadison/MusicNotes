@@ -1,6 +1,5 @@
 package com.musicnotes.android.sample.model;
 
-import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,7 +11,6 @@ import java.io.Serializable;
  */
 
 public class SchemeColor implements Parcelable, Serializable {
-    private static final String TAG = SchemeColor.class.getSimpleName();
 
     private String mName;
     private int mId;

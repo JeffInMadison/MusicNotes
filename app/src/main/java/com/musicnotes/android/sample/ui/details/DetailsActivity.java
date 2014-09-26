@@ -1,20 +1,15 @@
 package com.musicnotes.android.sample.ui.details;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 import com.musicnotes.android.sample.R;
 import com.musicnotes.android.sample.model.Scheme;
 
 public class DetailsActivity extends Activity {
+    @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = DetailsActivity.class.getSimpleName();
 
     public static final String ARG_SCHEME = "ARG_SCHEME";
@@ -57,21 +52,5 @@ public class DetailsActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_details, container, false);
-            return rootView;
-        }
     }
 }

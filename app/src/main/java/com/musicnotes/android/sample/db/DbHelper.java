@@ -14,7 +14,6 @@ import com.musicnotes.android.sample.model.SchemeColor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +22,7 @@ import java.util.Map;
  * Copyright JeffInMadison.com 2014
  */
 public class DbHelper extends SQLiteOpenHelper {
+    @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = DbHelper.class.getSimpleName();
 
     private static final int DATABASE_VERSION = 1;
@@ -38,7 +38,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_SCHEME_NAME = "name";
 
     private static final String[] COLORS_COLUMNS = {KEY_COLOR_ID,KEY_COLOR_NAME};
-    private static final String[] SCHEMES_COLUMNS = {KEY_SCHEME_NAME, KEY_SCHEME_ID };
+//    private static final String[] SCHEMES_COLUMNS = {KEY_SCHEME_NAME, KEY_SCHEME_ID };
 
     private final Context mContext;
 
@@ -173,8 +173,6 @@ public class DbHelper extends SQLiteOpenHelper {
             cursor = db.rawQuery(query, null);
 
             while (cursor.moveToNext()) {
-                Scheme scheme = new Scheme();
-
                 String schemeName = cursor.getString(cursor.getColumnIndex(KEY_SCHEME_NAME));
                 SchemeColor schemeColor =
                         new SchemeColor(cursor.getString(cursor.getColumnIndex("color_name")),
