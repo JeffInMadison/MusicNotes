@@ -1,4 +1,4 @@
-package com.musicnotes.android.sample.ui.main;
+package com.musicnotes.android.sample.ui.display;
 
 import android.content.Context;
 import android.text.Html;
@@ -6,12 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.musicnotes.android.sample.R;
 import com.musicnotes.android.sample.model.Scheme;
-import com.musicnotes.android.sample.model.SchemeColor;
 
 import java.util.List;
 
@@ -20,6 +18,7 @@ import java.util.List;
  * Copyright JeffInMadison.com 2014
  */
 public class SchemeAdapter extends ArrayAdapter<Scheme> {
+    @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = SchemeAdapter.class.getSimpleName();
 
     public SchemeAdapter(final Context context, final List<Scheme> objects) {

@@ -58,6 +58,19 @@ public class DbHelperTest extends AndroidTestCase {
 
     }
 
+    public void testFillTest() throws Exception {
+        DbHelper dbHelper = new DbHelper(getContext());
+        List<SchemeColor> schemeColors = dbHelper.getSchemeColors();
+
+        dbHelper.addScheme("one", schemeColors.subList(0,1));
+        dbHelper.addScheme("two", schemeColors.subList(0,2));
+        dbHelper.addScheme("three", schemeColors.subList(0,3));
+        dbHelper.addScheme("four", schemeColors.subList(0,4));
+        dbHelper.addScheme("five", schemeColors.subList(0,5));
+        dbHelper.addScheme("all", schemeColors);
+
+    }
+
     public void testGetSchemes() throws Exception {
         DbHelper dbHelper = new DbHelper(getContext());
         List<SchemeColor> schemeColors = dbHelper.getSchemeColors();

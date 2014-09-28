@@ -1,7 +1,9 @@
-package com.musicnotes.android.sample.ui.main;
+package com.musicnotes.android.sample.ui.display;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -13,7 +15,8 @@ import android.widget.AdapterView;
 import com.musicnotes.android.sample.R;
 import com.musicnotes.android.sample.db.DbHelper;
 import com.musicnotes.android.sample.model.Scheme;
-import com.musicnotes.android.sample.ui.details.DetailsActivity;
+import com.musicnotes.android.sample.ui.details.DetailsFragment;
+import com.musicnotes.android.sample.ui.scheme.AddSchemeFragment;
 
 import java.util.List;
 
@@ -21,20 +24,20 @@ import java.util.List;
  * Created by Jeff on 9/25/2014.
  * Copyright JeffInMadison.com 2014
  */
-public class MainFragment extends ListFragment implements ActionMode.Callback, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
+public class DisplaySchemeFragment extends ListFragment implements ActionMode.Callback, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
     @SuppressWarnings("UnusedDeclaration")
-    private static final String TAG = MainFragment.class.getSimpleName();
+    private static final String TAG = DisplaySchemeFragment.class.getSimpleName();
     private List<Scheme> mSchemeList;
     private ActionMode mActionMode;
 
-    public static MainFragment newInstance() {
-        MainFragment fragment = new MainFragment();
+    public static DisplaySchemeFragment newInstance() {
+        DisplaySchemeFragment fragment = new DisplaySchemeFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public MainFragment() {
+    public DisplaySchemeFragment() {
         // Required empty public constructor
     }
 
@@ -67,6 +70,7 @@ public class MainFragment extends ListFragment implements ActionMode.Callback, A
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
+            replaceFragment(AddSchemeFragment.newInstance(), AddSchemeFragment.class.getSimpleName());
             return true;
         }
 
@@ -76,9 +80,7 @@ public class MainFragment extends ListFragment implements ActionMode.Callback, A
     @Override
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         if (mActionMode == null) {
-            Intent detailsIntent = new Intent(getActivity(), DetailsActivity.class);
-            detailsIntent.putExtra(DetailsActivity.ARG_SCHEME, mSchemeList.get(position));
-            startActivity(detailsIntent);
+            replaceFragment(DetailsFragment.newInstance(mSchemeList.get(position)), DetailsFragment.class.getSimpleName());
         } else {
             // TODO handle item selection in actionMode
         }
@@ -116,4 +118,12 @@ public class MainFragment extends ListFragment implements ActionMode.Callback, A
         mActionMode = null;
     }
 
+    private void replaceFragment(final Fragment fragment, final String stackName) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in, 0, 0, R.anim.slide_out);
+        fragmentTransaction.replace(R.id.container, fragment, stackName);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 }

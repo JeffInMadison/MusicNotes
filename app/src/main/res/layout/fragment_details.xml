@@ -2,31 +2,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.musicnotes.android.sample.ui.details.DetailsActivity$PlaceholderFragment">
+    tools:context="com.musicnotes.android.sample.ui.details.MainActivity$PlaceholderFragment">
 
     <TextView
         android:id="@+id/schemeNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
         android:gravity="center_horizontal"
         android:textSize="24sp"
-        tools:background="@color/AliceBlue"
         tools:text="Scheme Name"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        tools:background="@color/WhiteSmoke" />
+        android:layout_height="2dp"
+        android:background="@color/Black"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/selectedColorViewPager"
+    <com.musicnotes.android.sample.ui.custom.ColorPreviewTabWidget
+        android:id="@+id/colorPreviewTabWidget"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp"
+        android:padding="8dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/Gray"/>
+        android:layout_height="2dp"
+        android:background="@color/Black"/>
+
+    <View
+        android:id="@+id/colorPreviewView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="16dp"/>
 
 </LinearLayout>
