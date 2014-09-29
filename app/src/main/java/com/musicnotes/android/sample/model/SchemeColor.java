@@ -3,6 +3,8 @@ package com.musicnotes.android.sample.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.musicnotes.android.sample.util.StringUtils;
+
 import java.io.Serializable;
 
 /**
@@ -14,6 +16,7 @@ public class SchemeColor implements Parcelable, Serializable {
 
     private String mName;
     private int mId;
+    private boolean mSelected;
 
     public String getName() {
         return mName;
@@ -27,6 +30,21 @@ public class SchemeColor implements Parcelable, Serializable {
     }
     public void setId(final int id) {
         mId = id;
+    }
+
+    public boolean isSelected() {
+        return mSelected;
+    }
+    public void setSelected(final boolean selected) {
+        mSelected = selected;
+    }
+
+    public String getColorHex() {
+        return StringUtils.getColorAsHexString(mId);
+    }
+
+    public int getColorId() {
+        return mId;
     }
 
     public SchemeColor(final String name, final int id) {

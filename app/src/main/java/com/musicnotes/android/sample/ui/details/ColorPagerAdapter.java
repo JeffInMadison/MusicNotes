@@ -25,7 +25,7 @@ public class ColorPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
         View colorView = new View(container.getContext());
-        colorView.setBackgroundColor(mSchemeColorList.get(position).getId());
+        colorView.setBackgroundColor(mSchemeColorList.get(position).getColorId());
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         colorView.setLayoutParams(params);
         container.addView(colorView);

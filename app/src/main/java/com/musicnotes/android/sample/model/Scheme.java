@@ -3,6 +3,8 @@ package com.musicnotes.android.sample.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.musicnotes.android.sample.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +43,13 @@ public class Scheme implements Parcelable {
     }
 
     public String getColorListAsHtmlColoredString() {
-        return "";
+        List<String> colorStrings = new ArrayList<String>();
+        for (SchemeColor schemeColor : mColorList) {
+            String colorString = String.format("<font color=%s>%s</font>", schemeColor.getColorHex(), schemeColor.getName());
+            colorStrings.add(colorString);
+        }
+        return StringUtils.getCommaSeparatedString(colorStrings, true);
     }
-
 
     @Override
     public int describeContents() {

@@ -62,7 +62,7 @@ public class DetailsFragment extends Fragment implements ColorPreviewTabWidget.O
         mTabWidget.setOnTabChangedListener(this);
         for (int ii = 0; ii < mColorListAdapter.getCount(); ii++) {
             SchemeColor schemeColor = ((SchemeColor) mColorListAdapter.getItem(ii));
-            mTabWidget.addTab(schemeColor.getId());
+            mTabWidget.addTab(schemeColor.getColorId());
         }
         mTabWidget.setSelectedTab(0);
 
@@ -85,6 +85,6 @@ public class DetailsFragment extends Fragment implements ColorPreviewTabWidget.O
     @Override
     public void onTabChanged(final int tabIndex) {
         SchemeColor schemeColor = (SchemeColor) mColorListAdapter.getItem(tabIndex);
-        mColorPreviewView.setBackgroundColor(schemeColor.getId());
+        mColorPreviewView.setBackgroundColor(schemeColor.getColorId());
     }
 }

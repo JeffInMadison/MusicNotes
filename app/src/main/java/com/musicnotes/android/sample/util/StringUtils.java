@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.UUID;
 /**
  * Created by Jeff on 9/25/2014.
@@ -101,5 +99,9 @@ public class StringUtils {
             stringBuilder.append(line);
         }
         return stringBuilder.toString();
+    }
+
+    public static String getColorAsHexString(int color) {
+        return String.format("#%06X", (0xFFFFFF & color));
     }
 }

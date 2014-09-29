@@ -29,7 +29,7 @@ public class ColorListAdapter extends ArrayAdapter<SchemeColor> {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View view = layoutInflater.inflate(R.layout.listview_item_color_preview, parent, false);
         View colorView = view.findViewById(R.id.colorView);
-        colorView.setBackgroundColor(schemeColor.getId());
+        colorView.setBackgroundColor(schemeColor.getColorId());
         return view;
     }
 }

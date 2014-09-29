@@ -1,12 +1,16 @@
 package com.musicnotes.android.sample.ui.scheme;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -29,6 +33,13 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
     private Button mCancelButton;
     private Button mAddButton;
 
+    private AddSchemeListener mAddSchemeListener;
+
+    public interface AddSchemeListener {
+        void onSchemeAdded();
+        void onAddSchemeCancelled();
+    }
+
     public static AddSchemeFragment newInstance() {
         AddSchemeFragment fragment = new AddSchemeFragment();
         Bundle args = new Bundle();
@@ -44,8 +55,7 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-        DbHelper dbHelper = new DbHelper(getActivity());
-        mSchemeColors = dbHelper.getSchemeColors();
+        mSchemeColors = DbHelper.getInstance().getSchemeColors();
     }
 
     @Override
@@ -62,7 +72,16 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
         mColorListView = (ListView) rootView.findViewById(R.id.colorsListView);
         mSchemeColorAdapter = new SchemeColorAdapter(getActivity(), mSchemeColors);
         mColorListView.setAdapter(mSchemeColorAdapter);
+        mColorListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         return rootView;
+    }
+
+    @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof AddSchemeListener) {
+            mAddSchemeListener = (AddSchemeListener) activity;
+        }
     }
 
     @Override
@@ -87,9 +106,37 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.cancelButton:
+                if (mAddSchemeListener != null) {
+                    mAddSchemeListener.onAddSchemeCancelled();
+                }
                 break;
             case R.id.addButton:
+                String schemeName = mSchemeNameEditText.getText().toString();
+                List<SchemeColor> selectedColors = mSchemeColorAdapter.getSelectedColors();
+                if (DbHelper.getInstance().schemeNameExists(schemeName)) {
+                    String message = String.format("There already is a scheme with that name. Please choose another one.", schemeName);
+                    showDialog("Scheme name in use", message);
+                } else if (selectedColors.size() < 2) {
+                    showDialog("Not enough colors selected", "You need to choose at least 2 colors for a scheme.");
+                } else if (mAddSchemeListener != null) {
+                    DbHelper.getInstance().addScheme(schemeName, selectedColors);
+                    mAddSchemeListener.onSchemeAdded();
+                }
                 break;
         }
+    }
+
+    private void showDialog(final String title, final String message) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, final int which) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 }

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.musicnotes.android.sample.ColorSchemesApplication;
 import com.musicnotes.android.sample.R;
 import com.musicnotes.android.sample.model.Scheme;
 import com.musicnotes.android.sample.model.SchemeColor;
@@ -14,6 +15,7 @@ import com.musicnotes.android.sample.model.SchemeColor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,13 +40,21 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_SCHEME_NAME = "name";
 
     private static final String[] COLORS_COLUMNS = {KEY_COLOR_ID,KEY_COLOR_NAME};
+    private static DbHelper sDbHelperInstance;
 //    private static final String[] SCHEMES_COLUMNS = {KEY_SCHEME_NAME, KEY_SCHEME_ID };
 
     private final Context mContext;
 
-    public DbHelper(final Context context) {
+    private DbHelper(final Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mContext = context;
+    }
+
+    public static DbHelper getInstance() {
+        if (sDbHelperInstance == null) {
+            sDbHelperInstance = new DbHelper(ColorSchemesApplication.getAppContext());
+        }
+        return sDbHelperInstance;
     }
 
     @Override
@@ -60,17 +70,19 @@ public class DbHelper extends SQLiteOpenHelper {
         // Pre-load db with colors
         Resources resources = mContext.getResources();
         String addColor;
-        addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Red), "Red");
+        addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Black), "Black");
         db.execSQL(addColor);
         addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Blue), "Blue");
         db.execSQL(addColor);
         addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Green), "Green");
         db.execSQL(addColor);
-        addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Black), "Black");
-        db.execSQL(addColor);
         addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Yellow), "Yellow");
         db.execSQL(addColor);
+        addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Red), "Red");
+        db.execSQL(addColor);
         addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Orange), "Orange");
+        db.execSQL(addColor);
+        addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Purple), "Purple");
         db.execSQL(addColor);
 
         String createSchemesTable =
@@ -112,7 +124,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         if (db != null) {
             results = new ArrayList<SchemeColor>();
-            Cursor cursor = db.query(TABLE_COLORS, COLORS_COLUMNS, null, null, null, null, KEY_COLOR_NAME);
+            Cursor cursor = db.query(TABLE_COLORS, COLORS_COLUMNS, null, null, null, null, null);
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(cursor.getColumnIndex(KEY_COLOR_ID));
                 String name = cursor.getString(cursor.getColumnIndex(KEY_COLOR_NAME));
@@ -164,12 +176,12 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public List<Scheme> getAllSchemes() {
         List<Scheme> result = Collections.emptyList();
-        HashMap<String,ArrayList<SchemeColor>> schemeMap = new HashMap<String, ArrayList<SchemeColor>>();
+        HashMap<String,ArrayList<SchemeColor>> schemeMap = new LinkedHashMap<String, ArrayList<SchemeColor>>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor;
         if (db != null) {
             result = new ArrayList<Scheme>();
-            String query = "SELECT schemes.name, colors.name as color_name, colors.id from schemes join colors on schemes.id = colors.id order by schemes.name";
+            String query = "SELECT schemes.name, colors.name as color_name, colors.id from schemes join colors on schemes.id = colors.id";
             cursor = db.rawQuery(query, null);
 
             while (cursor.moveToNext()) {
