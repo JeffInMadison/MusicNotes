@@ -2,9 +2,9 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/action_done"
+    <item android:id="@+id/action_add"
           android:showAsAction="always"
-          android:title="Done"
-          android:icon="@drawable/ic_action_accept"/>
+          android:title="Add"
+          android:icon="@null"/>
 
 </menu>

@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -83,6 +86,28 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
             mAddSchemeListener = (AddSchemeListener) activity;
         }
     }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.add_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_add) {
+            if (mAddSchemeListener != null) {
+                mAddSchemeListener.onSchemeAdded();
+            }
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {

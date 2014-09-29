@@ -10,9 +10,15 @@ import com.musicnotes.android.sample.R;
 import com.musicnotes.android.sample.model.Scheme;
 import com.musicnotes.android.sample.ui.details.DetailsFragment;
 import com.musicnotes.android.sample.ui.display.DisplaySchemeFragment;
+import com.musicnotes.android.sample.ui.edit.EditFragment;
 import com.musicnotes.android.sample.ui.scheme.AddSchemeFragment;
 
-public class MainActivity extends Activity implements DisplaySchemeFragment.DisplaySchemeListener, AddSchemeFragment.AddSchemeListener {
+public class MainActivity extends Activity implements
+                                                    DisplaySchemeFragment.DisplaySchemeListener,
+                                                    AddSchemeFragment.AddSchemeListener,
+                                                    EditFragment.EditSchemeListener {
+    @SuppressWarnings("UnusedDeclaration")
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +41,9 @@ public class MainActivity extends Activity implements DisplaySchemeFragment.Disp
         replaceFragment(DetailsFragment.newInstance(scheme), DetailsFragment.class.getSimpleName());
     }
 
-    private void replaceFragment(final Fragment fragment, final String stackName) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_in, 0, 0, R.anim.slide_out);
-        fragmentTransaction.replace(R.id.container, fragment, stackName);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    @Override
+    public void onEditClicked() {
+        replaceFragment(EditFragment.newInstance(), EditFragment.class.getSimpleName());
     }
 
     @Override
@@ -58,6 +60,23 @@ public class MainActivity extends Activity implements DisplaySchemeFragment.Disp
         getFragmentManager().popBackStackImmediate();
     }
 
+    @Override
+    public void onSchemeEdited() {
+        getFragmentManager().popBackStackImmediate();
+        DisplaySchemeFragment displaySchemeFragment = (DisplaySchemeFragment) getFragmentManager().findFragmentByTag(DisplaySchemeFragment.class.getSimpleName());
+        if (displaySchemeFragment != null) {
+            displaySchemeFragment.updateListView();
+        }
+    }
+
+    private void replaceFragment(final Fragment fragment, final String stackName) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in, 0, 0, R.anim.slide_out);
+        fragmentTransaction.replace(R.id.container, fragment, stackName);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 
 //    @Override
 //    public boolean onNavigateUp() {

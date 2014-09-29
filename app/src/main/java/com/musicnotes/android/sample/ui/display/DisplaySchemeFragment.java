@@ -34,6 +34,7 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
     public interface DisplaySchemeListener {
         void onAddSchemeClicked();
         void onItemClicked(Scheme scheme);
+        void onEditClicked();
     }
 
     public static DisplaySchemeFragment newInstance() {
@@ -61,7 +62,9 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setOnItemClickListener(this);
-        getListView().setOnItemLongClickListener(this);
+        // Disable long click. You'd normally long click to bring up a contextual edit in the actionbar
+        // but we are using the drag sort list view to handle that now...
+//        getListView().setOnItemLongClickListener(this);
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
     }
 
@@ -88,16 +91,20 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_add) {
-            if (mDisplaySchemeListener != null) {
-                mDisplaySchemeListener.onAddSchemeClicked();
-            }
-
-            return true;
+        switch (id) {
+            case R.id.action_add:
+                if (mDisplaySchemeListener != null) {
+                    mDisplaySchemeListener.onAddSchemeClicked();
+                }
+                return true;
+            case R.id.action_edit:
+                if (mDisplaySchemeListener != null) {
+                    mDisplaySchemeListener.onEditClicked();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

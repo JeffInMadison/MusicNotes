@@ -3,7 +3,6 @@ package com.musicnotes.android.sample.ui.details;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -47,7 +46,6 @@ public class DetailsFragment extends Fragment implements ColorPreviewTabWidget.O
             mPagerAdapter = new ColorPagerAdapter(colorList);
             mColorListAdapter = new ColorListAdapter(getActivity(), colorList);
         }
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -68,19 +66,6 @@ public class DetailsFragment extends Fragment implements ColorPreviewTabWidget.O
 
         return rootView;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                getFragmentManager().popBackStack();
-                getActivity().getActionBar().setHomeButtonEnabled(false);
-                return true;
-        }
-        return false;
-    }
-
-
 
     @Override
     public void onTabChanged(final int tabIndex) {
