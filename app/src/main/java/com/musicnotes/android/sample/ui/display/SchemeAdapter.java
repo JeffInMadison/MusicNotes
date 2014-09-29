@@ -1,7 +1,9 @@
 package com.musicnotes.android.sample.ui.display;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Html;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +22,40 @@ import java.util.List;
 public class SchemeAdapter extends ArrayAdapter<Scheme> {
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = SchemeAdapter.class.getSimpleName();
+    private SparseBooleanArray mSelectedItemsIds;
 
     public SchemeAdapter(final Context context, final List<Scheme> objects) {
         super(context, -1, objects);
+        mSelectedItemsIds = new SparseBooleanArray();
+    }
+
+    public void toggleSelection(int position)
+    {
+        selectView(position, !mSelectedItemsIds.get(position));
+    }
+
+    public void removeSelection() {
+        mSelectedItemsIds = new SparseBooleanArray();
+        notifyDataSetChanged();
+    }
+
+    public void selectView(int position, boolean value)
+    {
+        if(value) {
+            mSelectedItemsIds.put(position, value);
+        } else {
+            mSelectedItemsIds.delete(position);
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public int getSelectedCount() {
+        return mSelectedItemsIds.size();
+    }
+
+    public SparseBooleanArray getSelectedIds() {
+        return mSelectedItemsIds;
     }
 
     @Override
@@ -39,7 +72,8 @@ public class SchemeAdapter extends ArrayAdapter<Scheme> {
         TextView schemeColorsTextView = (TextView) convertView.findViewById(R.id.schemeColorsTextView);
         schemeColorsTextView.setText(Html.fromHtml(scheme.getColorListAsHtmlColoredString()));
 
-        return convertView;
+        convertView.setBackgroundColor(mSelectedItemsIds.get(position)? 0x9934B5E4: Color.TRANSPARENT);
 
+        return convertView;
     }
 }

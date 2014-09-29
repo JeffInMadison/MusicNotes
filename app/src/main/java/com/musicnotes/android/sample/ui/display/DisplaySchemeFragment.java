@@ -3,11 +3,13 @@ package com.musicnotes.android.sample.ui.display;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import com.musicnotes.android.sample.R;
@@ -60,6 +62,7 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
         super.onViewCreated(view, savedInstanceState);
         getListView().setOnItemClickListener(this);
         getListView().setOnItemLongClickListener(this);
+        getListView().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
     }
 
     @Override
@@ -105,6 +108,12 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
             }
         } else {
             // TODO handle item selection in actionMode
+            mSchemeAdapter.toggleSelection(position);
+            boolean hasCheckedItems = mSchemeAdapter.getSelectedCount() > 0;
+
+            if (hasCheckedItems) {
+
+            }
         }
     }
 
@@ -132,11 +141,23 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
 
     @Override
     public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
+        SparseBooleanArray selected = mSchemeAdapter.getSelectedIds();
+        for (int ii = 0; ii < selected.size(); ii++){
+            if (selected.valueAt(ii)) {
+                Scheme selectedItem = mSchemeAdapter.getItem(selected.keyAt(ii));
+                DbHelper.getInstance().deleteSchemeByName(selectedItem.getName());
+            }
+        }
+        mSchemeList.clear();
+        mSchemeList.addAll(DbHelper.getInstance().getAllSchemes());
+        // close action mode
+        mode.finish();
         return false;
     }
 
     @Override
     public void onDestroyActionMode(final ActionMode mode) {
+        mSchemeAdapter.removeSelection();
         mActionMode = null;
     }
 

@@ -72,6 +72,8 @@ public class DbHelper extends SQLiteOpenHelper {
         String addColor;
         addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Black), "Black");
         db.execSQL(addColor);
+//        addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Gray), "Gray");
+//        db.execSQL(addColor);
         addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Blue), "Blue");
         db.execSQL(addColor);
         addColor = String.format("INSERT INTO %s VALUES(%s, '%s')", TABLE_COLORS, resources.getColor(R.color.Green), "Green");

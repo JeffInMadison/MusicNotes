@@ -48,7 +48,9 @@ public class MainActivity extends Activity implements DisplaySchemeFragment.Disp
     public void onSchemeAdded() {
         getFragmentManager().popBackStackImmediate();
         DisplaySchemeFragment displaySchemeFragment = (DisplaySchemeFragment) getFragmentManager().findFragmentByTag(DisplaySchemeFragment.class.getSimpleName());
-        displaySchemeFragment.updateListView();
+        if (displaySchemeFragment != null) {
+            displaySchemeFragment.updateListView();
+        }
     }
 
     @Override
