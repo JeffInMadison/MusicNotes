@@ -1,9 +1,7 @@
 package com.musicnotes.android.sample.ui.edit;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.Html;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,40 +20,9 @@ import java.util.List;
 public class EditSchemeAdapter extends ArrayAdapter<Scheme> {
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = EditSchemeAdapter.class.getSimpleName();
-    private SparseBooleanArray mSelectedItemsIds;
 
     public EditSchemeAdapter(final Context context, final List<Scheme> objects) {
         super(context, -1, objects);
-        mSelectedItemsIds = new SparseBooleanArray();
-    }
-
-    public void toggleSelection(int position)
-    {
-        selectView(position, !mSelectedItemsIds.get(position));
-    }
-
-    public void removeSelection() {
-        mSelectedItemsIds = new SparseBooleanArray();
-        notifyDataSetChanged();
-    }
-
-    public void selectView(int position, boolean value)
-    {
-        if(value) {
-            mSelectedItemsIds.put(position, value);
-        } else {
-            mSelectedItemsIds.delete(position);
-        }
-
-        notifyDataSetChanged();
-    }
-
-    public int getSelectedCount() {
-        return mSelectedItemsIds.size();
-    }
-
-    public SparseBooleanArray getSelectedIds() {
-        return mSelectedItemsIds;
     }
 
     @Override
@@ -63,7 +30,7 @@ public class EditSchemeAdapter extends ArrayAdapter<Scheme> {
         Scheme scheme = getItem(position);
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-            convertView = layoutInflater.inflate(R.layout.listview_item_scheme, parent, false);
+            convertView = layoutInflater.inflate(R.layout.listview_item_edit_scheme, parent, false);
         }
 
         TextView schemeNameTextView = (TextView) convertView.findViewById(R.id.schemeNameTextView);
@@ -71,8 +38,6 @@ public class EditSchemeAdapter extends ArrayAdapter<Scheme> {
 
         TextView schemeColorsTextView = (TextView) convertView.findViewById(R.id.schemeColorsTextView);
         schemeColorsTextView.setText(Html.fromHtml(scheme.getColorListAsHtmlColoredString()));
-
-        convertView.setBackgroundColor(mSelectedItemsIds.get(position)? 0x9934B5E4: Color.TRANSPARENT);
 
         return convertView;
     }

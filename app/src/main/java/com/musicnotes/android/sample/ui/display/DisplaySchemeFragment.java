@@ -1,5 +1,6 @@
 package com.musicnotes.android.sample.ui.display;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -108,6 +109,17 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
     }
 
     @Override
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ActionBar actionBar = getActivity().getActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(false);
+        actionBar.setTitle(R.string.app_name);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+    }
+
+    @Override
     public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
         if (mActionMode == null) {
             if (mDisplaySchemeListener != null) {
@@ -116,11 +128,7 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
         } else {
             // TODO handle item selection in actionMode
             mSchemeAdapter.toggleSelection(position);
-            boolean hasCheckedItems = mSchemeAdapter.getSelectedCount() > 0;
-
-            if (hasCheckedItems) {
-
-            }
+//            boolean hasCheckedItems = mSchemeAdapter.getSelectedCount() > 0;
         }
     }
 

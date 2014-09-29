@@ -42,7 +42,7 @@ public class SchemeAdapter extends ArrayAdapter<Scheme> {
     public void selectView(int position, boolean value)
     {
         if(value) {
-            mSelectedItemsIds.put(position, value);
+            mSelectedItemsIds.put(position, true);
         } else {
             mSelectedItemsIds.delete(position);
         }
@@ -50,6 +50,7 @@ public class SchemeAdapter extends ArrayAdapter<Scheme> {
         notifyDataSetChanged();
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public int getSelectedCount() {
         return mSelectedItemsIds.size();
     }

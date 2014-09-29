@@ -1,4 +1,4 @@
-package com.musicnotes.android.sample.ui.details;
+package com.musicnotes.android.sample.ui.preview;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;

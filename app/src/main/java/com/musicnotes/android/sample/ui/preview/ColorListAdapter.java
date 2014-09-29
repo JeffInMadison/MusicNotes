@@ -1,4 +1,4 @@
-package com.musicnotes.android.sample.ui.details;
+package com.musicnotes.android.sample.ui.preview;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

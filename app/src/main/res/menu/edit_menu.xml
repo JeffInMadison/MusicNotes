@@ -5,6 +5,6 @@
     <item android:id="@+id/action_done"
           android:showAsAction="always"
           android:title="Done"
-          android:icon="@drawable/ic_action_accept"/>
+          android:icon="@drawable/ic_action_accept_light"/>
 
 </menu>

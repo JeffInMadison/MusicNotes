@@ -8,6 +8,7 @@ import android.content.Context;
  * Copyright JeffInMadison.com 2014
  */
 public class ColorSchemesApplication extends Application {
+    @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = ColorSchemesApplication.class.getSimpleName();
     private static Context sAppContext;
 

@@ -1,4 +1,4 @@
-package com.musicnotes.android.sample.ui.scheme;
+package com.musicnotes.android.sample.ui.add;
 
 import android.content.Context;
 import android.view.LayoutInflater;

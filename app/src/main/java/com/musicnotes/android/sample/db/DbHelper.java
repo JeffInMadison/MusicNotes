@@ -138,6 +138,27 @@ public class DbHelper extends SQLiteOpenHelper {
         return results;
     }
 
+    public void addScheme(final List<Scheme> schemeList) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        if (db != null) {
+            try {
+                db.beginTransaction();
+                for (Scheme scheme : schemeList) {
+                    for (SchemeColor schemeColor : scheme.getColorList()) {
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(KEY_SCHEME_NAME, scheme.getName());
+                        contentValues.put(KEY_SCHEME_ID, schemeColor.getId());
+                        db.insert(TABLE_SCHEMES, null, contentValues);
+                    }
+                }
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+                db.close();
+            }
+        }
+    }
+
     public void addScheme(String name, List<SchemeColor> schemeColors) {
         SQLiteDatabase db = this.getWritableDatabase();
         if (db != null) {
@@ -150,7 +171,6 @@ public class DbHelper extends SQLiteOpenHelper {
                     contentValues.put(KEY_SCHEME_ID, schemeColor.getId());
                     db.insert(TABLE_SCHEMES, null, contentValues);
                 }
-
                 db.setTransactionSuccessful();
             } finally {
                 db.endTransaction();
@@ -211,9 +231,7 @@ public class DbHelper extends SQLiteOpenHelper {
             db.close();
         }
         return result;
-
     }
-
 
     public List<String> getSchemeNames() {
         List<String> result = Collections.emptyList();
@@ -263,5 +281,4 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return result;
     }
-
 }

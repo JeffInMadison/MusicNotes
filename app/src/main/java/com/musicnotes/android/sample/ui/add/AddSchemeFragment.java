@@ -1,5 +1,6 @@
-package com.musicnotes.android.sample.ui.scheme;
+package com.musicnotes.android.sample.ui.add;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -14,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -29,14 +29,12 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = AddSchemeFragment.class.getSimpleName();
 
-    private ListView mColorListView;
     private List<SchemeColor> mSchemeColors;
     private SchemeColorAdapter mSchemeColorAdapter;
     private EditText mSchemeNameEditText;
-    private Button mCancelButton;
-    private Button mAddButton;
 
     private AddSchemeListener mAddSchemeListener;
+    private View mDoneActionView;
 
     public interface AddSchemeListener {
         void onSchemeAdded();
@@ -56,8 +54,6 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
         mSchemeColors = DbHelper.getInstance().getSchemeColors();
     }
 
@@ -67,15 +63,26 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
 
         mSchemeNameEditText = (EditText) rootView.findViewById(R.id.schemeNameEditText);
         mSchemeNameEditText.addTextChangedListener(this);
-        mCancelButton = (Button) rootView.findViewById(R.id.cancelButton);
-        mCancelButton.setOnClickListener(this);
-        mAddButton = (Button) rootView.findViewById(R.id.addButton);
-        mAddButton.setOnClickListener(this);
 
-        mColorListView = (ListView) rootView.findViewById(R.id.colorsListView);
+        ListView colorListView = (ListView) rootView.findViewById(R.id.colorsListView);
         mSchemeColorAdapter = new SchemeColorAdapter(getActivity(), mSchemeColors);
-        mColorListView.setAdapter(mSchemeColorAdapter);
-        mColorListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+        colorListView.setAdapter(mSchemeColorAdapter);
+        colorListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+
+        View customActionBar = inflater.inflate(R.layout.actionbar_custom_cancel_add, container, false);
+        View cancelActionView = customActionBar.findViewById(R.id.action_cancel);
+        cancelActionView.setOnClickListener(this);
+        mDoneActionView = customActionBar.findViewById(R.id.action_done);
+        mDoneActionView.setOnClickListener(this);
+
+        ActionBar actionBar = getActivity().getActionBar();
+
+        assert actionBar != null;
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(customActionBar);
+        actionBar.setTitle(R.string.add_scheme_title);
+        actionBar.setDisplayHomeAsUpEnabled(false);
         return rootView;
     }
 
@@ -108,39 +115,36 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
-    public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
-    }
-
+    public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) { }
     @Override
-    public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-    }
+    public void onTextChanged(final CharSequence s, final int start, final int before, final int count) { }
 
     @Override
     public void afterTextChanged(final Editable text) {
         if (StringUtils.isNullOrEmpty(text)) {
-            mAddButton.setEnabled(false);
+            mDoneActionView.setEnabled(false);
         } else {
-            mAddButton.setEnabled(true);
+            mDoneActionView.setEnabled(true);
         }
     }
 
     @Override
     public void onClick(final View view) {
         switch (view.getId()) {
-            case R.id.cancelButton:
+            case R.id.action_cancel:
                 if (mAddSchemeListener != null) {
                     mAddSchemeListener.onAddSchemeCancelled();
                 }
                 break;
-            case R.id.addButton:
+            case R.id.action_done:
                 String schemeName = mSchemeNameEditText.getText().toString();
                 List<SchemeColor> selectedColors = mSchemeColorAdapter.getSelectedColors();
-                if (DbHelper.getInstance().schemeNameExists(schemeName)) {
-                    String message = String.format("There already is a scheme with that name. Please choose another one.", schemeName);
-                    showDialog("Scheme name in use", message);
+
+                if (StringUtils.isNullOrEmpty(schemeName)) {
+                    showDialog("No scheme name", "You must enter a scheme name first.");
+                } else if (DbHelper.getInstance().schemeNameExists(schemeName)) {
+                    showDialog("Scheme name in use", "There already is a scheme with that name. Please choose a new onesdfg.");
                 } else if (selectedColors.size() < 2) {
                     showDialog("Not enough colors selected", "You need to choose at least 2 colors for a scheme.");
                 } else if (mAddSchemeListener != null) {

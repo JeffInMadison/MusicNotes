@@ -4,12 +4,12 @@
 
     <item android:id="@+id/action_edit"
           android:title="Edit"
-          android:icon="@drawable/ic_action_edit"
+          android:icon="@drawable/ic_action_edit_light"
           android:showAsAction="always|withText"/>
 
     <item android:id="@+id/action_add"
           android:title="Add"
-          android:icon="@drawable/ic_action_new"
+          android:icon="@drawable/ic_action_new_light"
           android:showAsAction="always|withText"/>
 
 </menu>

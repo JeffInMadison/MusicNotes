@@ -30,14 +30,17 @@ public class ColorPreviewTabWidget extends TabWidget implements View.OnTouchList
         mOnTabChangedListener = listener;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public ColorPreviewTabWidget(final Context context) {
         super(context);
         init();
     }
+    @SuppressWarnings("UnusedDeclaration")
     public ColorPreviewTabWidget(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         init();
     }
+    @SuppressWarnings("UnusedDeclaration")
     public ColorPreviewTabWidget(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         init();

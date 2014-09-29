@@ -8,10 +8,10 @@ import android.os.Bundle;
 
 import com.musicnotes.android.sample.R;
 import com.musicnotes.android.sample.model.Scheme;
-import com.musicnotes.android.sample.ui.details.DetailsFragment;
+import com.musicnotes.android.sample.ui.add.AddSchemeFragment;
 import com.musicnotes.android.sample.ui.display.DisplaySchemeFragment;
 import com.musicnotes.android.sample.ui.edit.EditFragment;
-import com.musicnotes.android.sample.ui.scheme.AddSchemeFragment;
+import com.musicnotes.android.sample.ui.preview.PreviewFragment;
 
 public class MainActivity extends Activity implements
                                                     DisplaySchemeFragment.DisplaySchemeListener,
@@ -33,17 +33,17 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onAddSchemeClicked() {
-            replaceFragment(AddSchemeFragment.newInstance(), AddSchemeFragment.class.getSimpleName());
+        replaceFragment(AddSchemeFragment.newInstance(), AddSchemeFragment.class.getSimpleName(), true);
     }
 
     @Override
     public void onItemClicked(final Scheme scheme) {
-        replaceFragment(DetailsFragment.newInstance(scheme), DetailsFragment.class.getSimpleName());
+        replaceFragment(PreviewFragment.newInstance(scheme), PreviewFragment.class.getSimpleName(), true);
     }
 
     @Override
     public void onEditClicked() {
-        replaceFragment(EditFragment.newInstance(), EditFragment.class.getSimpleName());
+        replaceFragment(EditFragment.newInstance(), EditFragment.class.getSimpleName(), false);
     }
 
     @Override
@@ -69,10 +69,12 @@ public class MainActivity extends Activity implements
         }
     }
 
-    private void replaceFragment(final Fragment fragment, final String stackName) {
+    private void replaceFragment(final Fragment fragment, final String stackName, boolean animate) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_in, 0, 0, R.anim.slide_out);
+        if (animate) {
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in, 0, 0, R.anim.slide_out);
+        }
         fragmentTransaction.replace(R.id.container, fragment, stackName);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
