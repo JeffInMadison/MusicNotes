@@ -21,11 +21,12 @@ import android.widget.ListView;
 import com.musicnotes.android.sample.R;
 import com.musicnotes.android.sample.db.DbHelper;
 import com.musicnotes.android.sample.model.SchemeColor;
+import com.musicnotes.android.sample.util.AppUtils;
 import com.musicnotes.android.sample.util.StringUtils;
 
 import java.util.List;
 
-public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnClickListener {
+public class AddSchemeFragment extends Fragment implements View.OnClickListener {
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = AddSchemeFragment.class.getSimpleName();
 
@@ -54,6 +55,7 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         mSchemeColors = DbHelper.getInstance().getSchemeColors();
     }
 
@@ -62,7 +64,6 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
         View rootView = inflater.inflate(R.layout.fragment_add_scheme, container, false);
 
         mSchemeNameEditText = (EditText) rootView.findViewById(R.id.schemeNameEditText);
-        mSchemeNameEditText.addTextChangedListener(this);
 
         ListView colorListView = (ListView) rootView.findViewById(R.id.colorsListView);
         mSchemeColorAdapter = new SchemeColorAdapter(getActivity(), mSchemeColors);
@@ -102,30 +103,14 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_add) {
-            if (mAddSchemeListener != null) {
-                mAddSchemeListener.onSchemeAdded();
-            }
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) { }
-    @Override
-    public void onTextChanged(final CharSequence s, final int start, final int before, final int count) { }
-
-    @Override
-    public void afterTextChanged(final Editable text) {
-        if (StringUtils.isNullOrEmpty(text)) {
-            mDoneActionView.setEnabled(false);
-        } else {
-            mDoneActionView.setEnabled(true);
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                if (mAddSchemeListener != null) {
+                    mAddSchemeListener.onSchemeAdded();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -148,6 +133,7 @@ public class AddSchemeFragment extends Fragment implements TextWatcher, View.OnC
                 } else if (selectedColors.size() < 2) {
                     showDialog("Not enough colors selected", "You need to choose at least 2 colors for a scheme.");
                 } else if (mAddSchemeListener != null) {
+                    AppUtils.hideSoftKeyboard(getActivity());
                     DbHelper.getInstance().addScheme(schemeName, selectedColors);
                     mAddSchemeListener.onSchemeAdded();
                 }

@@ -84,8 +84,7 @@ public class PreviewFragment extends Fragment implements ColorPreviewTabWidget.O
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 getFragmentManager().popBackStack();
                 ActionBar actionBar = getActivity().getActionBar();

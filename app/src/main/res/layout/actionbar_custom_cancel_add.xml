@@ -1,10 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:divider="?android:attr/dividerVertical"
-    android:dividerPadding="12dip"
-    android:showDividers="middle">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:divider="?android:attr/dividerVertical"
+              android:dividerPadding="12dip"
+              android:showDividers="middle"
+              android:background="@color/ActionBarBackground">
 
     <!-- id must match corresponding menu item id -->
     <LinearLayout

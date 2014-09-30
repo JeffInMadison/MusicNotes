@@ -91,8 +91,7 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.action_add:
                 if (mDisplaySchemeListener != null) {
                     mDisplaySchemeListener.onAddSchemeClicked();
@@ -117,6 +116,7 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
         actionBar.setDisplayShowCustomEnabled(false);
         actionBar.setTitle(R.string.app_name);
         actionBar.setDisplayHomeAsUpEnabled(false);
+        setEmptyText("No Schemes to display. \nUse the '+' to add one.");
     }
 
     @Override

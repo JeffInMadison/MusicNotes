@@ -146,4 +146,5 @@
     <color name="TransparentSelected">#BB000000</color>
     <color name="TransparentDark">#EE000000</color>
 
+    <color name="ActionBarBackground">#a9a9a9</color>
 </resources>

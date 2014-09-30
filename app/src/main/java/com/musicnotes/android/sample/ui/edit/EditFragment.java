@@ -81,6 +81,7 @@ public class EditFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
         ActionBar actionBar = getActivity().getActionBar();
         assert actionBar != null;
         actionBar.setDisplayShowTitleEnabled(true);
@@ -118,8 +119,7 @@ public class EditFragment extends ListFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.action_done:
                 saveListToDB();
                 if (mEditSchemeListener != null) {

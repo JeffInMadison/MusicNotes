@@ -1,0 +1,19 @@
+apply plugin: 'android-library'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        applicationId "com.mobeta.android.dslv"
+        minSdkVersion 7
+        targetSdkVersion 20
+        versionCode 4
+        versionName "0.6.1"
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:20.0.0'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}

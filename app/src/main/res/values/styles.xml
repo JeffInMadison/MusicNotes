@@ -3,11 +3,15 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/AppThemeActionBar</item>
-        <item name="android:actionMenuTextColor">@color/White</item>
     </style>
 
-    <style name="AppThemeActionBar" parent="android:Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/Gray</item>
+    <style name="AppThemeActionBar" parent="android:Widget.Holo.ActionBar.Solid">
+        <item name="android:titleTextStyle">@style/TitleBarTextColor</item>
+        <item name="android:background">@color/ActionBarBackground</item>
+    </style>
+
+    <style name="TitleBarTextColor" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/White</item>
     </style>
 
     <style name="EditEventCustomActionButton" parent="android:style/Widget.Holo.ActionButton">
@@ -23,11 +27,12 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:padding">4dp</item>
     </style>
+
     <style name="EditEventCustomActionButtonText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textAppearance">?android:attr/actionMenuTextAppearance</item>
-        <item name="android:textColor">?android:attr/actionMenuTextColor</item>
+        <item name="android:textColor">@color/White</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">none</item>
