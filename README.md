@@ -17,6 +17,8 @@ For example:
 -  In Android the idea that you can go back in a view is signified with a chevron pointing left. In iOS it is typically a button labeled back.
 -  The actionbar usually displays the app's logo and page titles to their right. Vs in the middle on iOS.
 
+I added icon's with a blue tint and it looked pretty bad. If the creative team was set on that color it could easily be changed to the blue.
+
 Persistence
 ------
 In order to persist the created schemes when the app closes and relaunches I created a very basic SQLite database to store them. It is by no means robust and not really an example of my ability to manage data on a device but merely a quick way to store and retrieve data. 
@@ -27,7 +29,7 @@ One of the reason's I stuck with Android is this element. I knew the preview pag
 
 Edit Mode - Drag Sort and Delete
 ------
-The drag & sort mechanism is also not built into Android in any way. There is a library that is commonly used to do this called the DragSortListView written by Carl Bauer. It is no longer maintained but still used and works pretty well.
+The drag & sort mechanism is also not built into Android in any way. There is a library that is commonly used to do this called the DragSortListView written by Carl Bauer. It is no longer maintained but still used and works pretty well. I included his code to accomplish this functionality. 
 
 Ideally on Android the way to select and manage a list would be through the ActionBar contextual edit. Must users would expect to long click on a listview and have the actionbar change indicating a new mode. Then select or multiselect an item(s) and use the action icons on the actionbar to act on them. This is partially why the DragSortListView is not an active project. I decided to follow the the spec given but could just as easily have made use of the actionbar.
 
