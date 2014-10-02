@@ -11,7 +11,6 @@ import java.io.Serializable;
  * Created by Jeff on 9/25/2014.
  * Copyright JeffInMadison.com 2014
  */
-
 public class SchemeColor implements Parcelable, Serializable {
 
     private String mName;
@@ -47,10 +46,14 @@ public class SchemeColor implements Parcelable, Serializable {
         return mId;
     }
 
+    public SchemeColor() { }
+
     public SchemeColor(final String name, final int id) {
         mName = name;
         mId = id;
     }
+
+// Parcelable code
 
     @Override
     public int describeContents() {

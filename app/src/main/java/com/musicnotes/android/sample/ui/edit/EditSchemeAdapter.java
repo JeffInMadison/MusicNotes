@@ -22,6 +22,7 @@ public class EditSchemeAdapter extends ArrayAdapter<Scheme> {
     private static final String TAG = EditSchemeAdapter.class.getSimpleName();
 
     public EditSchemeAdapter(final Context context, final List<Scheme> objects) {
+        // intResource is -1 because we will return our own.
         super(context, -1, objects);
     }
 

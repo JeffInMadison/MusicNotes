@@ -6,8 +6,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +24,12 @@ import com.musicnotes.android.sample.util.StringUtils;
 
 import java.util.List;
 
+/**
+ * Created by Jeff on 9/25/2014.
+ * Copyright JeffInMadison.com 2014
+ *
+ * Fragment for adding a new Scheme
+ */
 public class AddSchemeFragment extends Fragment implements View.OnClickListener {
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = AddSchemeFragment.class.getSimpleName();
@@ -37,6 +41,9 @@ public class AddSchemeFragment extends Fragment implements View.OnClickListener 
     private AddSchemeListener mAddSchemeListener;
     private View mDoneActionView;
 
+    /**
+     * Interface to tell containing Activity when events occur.
+     */
     public interface AddSchemeListener {
         void onSchemeAdded();
         void onAddSchemeCancelled();
@@ -48,14 +55,14 @@ public class AddSchemeFragment extends Fragment implements View.OnClickListener 
         fragment.setArguments(args);
         return fragment;
     }
-    public AddSchemeFragment() {
-        // Required empty public constructor
-    }
+    public AddSchemeFragment() { /* Required empty public constructor */ }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        // Ideally this should be in a Loader or off the main UI thread. It currently is lightweight
+        // enough to not be an issue.
         mSchemeColors = DbHelper.getInstance().getSchemeColors();
     }
 
@@ -70,14 +77,15 @@ public class AddSchemeFragment extends Fragment implements View.OnClickListener 
         colorListView.setAdapter(mSchemeColorAdapter);
         colorListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
 
+        // Create custom actionbar for cancel/add
         View customActionBar = inflater.inflate(R.layout.actionbar_custom_cancel_add, container, false);
         View cancelActionView = customActionBar.findViewById(R.id.action_cancel);
         cancelActionView.setOnClickListener(this);
         mDoneActionView = customActionBar.findViewById(R.id.action_done);
         mDoneActionView.setOnClickListener(this);
 
+        // Load custom actionbar for AddScheme.
         ActionBar actionBar = getActivity().getActionBar();
-
         assert actionBar != null;
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
@@ -123,6 +131,7 @@ public class AddSchemeFragment extends Fragment implements View.OnClickListener 
                 }
                 break;
             case R.id.action_done:
+                // User needs a unique name & to have selected at least 2 colors to add the Scheme
                 String schemeName = mSchemeNameEditText.getText().toString();
                 List<SchemeColor> selectedColors = mSchemeColorAdapter.getSelectedColors();
 
@@ -141,6 +150,11 @@ public class AddSchemeFragment extends Fragment implements View.OnClickListener 
         }
     }
 
+    /**
+     * Helper method to show an alertDialog
+     * @param title appears in the title of dialog
+     * @param message message in the alert
+     */
     private void showDialog(final String title, final String message) {
         final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setCancelable(false);

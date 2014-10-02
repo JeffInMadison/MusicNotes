@@ -23,6 +23,8 @@ import java.util.List;
 /**
  * Created by Jeff on 9/29/2014.
  * Copyright JeffInMadison.com 2014
+ *
+ * EditFragment switches the listview to an editable listview.
  */
 public class EditFragment extends ListFragment {
     @SuppressWarnings("UnusedDeclaration")
@@ -34,6 +36,9 @@ public class EditFragment extends ListFragment {
     private DragSortListView mDragSortListView;
     private EditSchemeListener mEditSchemeListener;
 
+    /**
+     * Interface to tell containing Activity when events occur.
+     */
     public interface EditSchemeListener {
         void onSchemeEdited();
     }
@@ -44,6 +49,8 @@ public class EditFragment extends ListFragment {
         editFragment.setArguments(args);
         return editFragment;
     }
+
+    public EditFragment() { /* Required empty public constructor */ }
 
     /**
      * Called in onCreateView. Override this to provide a custom

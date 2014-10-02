@@ -18,6 +18,8 @@ import java.util.List;
 /**
  * Created by Jeff on 9/26/2014.
  * Copyright JeffInMadison.com 2014
+ *
+ * ArrayAdapter to return views for available Schemes
  */
 public class SchemeAdapter extends ArrayAdapter<Scheme> {
     @SuppressWarnings("UnusedDeclaration")
@@ -25,6 +27,7 @@ public class SchemeAdapter extends ArrayAdapter<Scheme> {
     private SparseBooleanArray mSelectedItemsIds;
 
     public SchemeAdapter(final Context context, final List<Scheme> objects) {
+        // intResource is -1 because we will return our own.
         super(context, -1, objects);
         mSelectedItemsIds = new SparseBooleanArray();
     }
@@ -73,7 +76,8 @@ public class SchemeAdapter extends ArrayAdapter<Scheme> {
         TextView schemeColorsTextView = (TextView) convertView.findViewById(R.id.schemeColorsTextView);
         schemeColorsTextView.setText(Html.fromHtml(scheme.getColorListAsHtmlColoredString()));
 
-        convertView.setBackgroundColor(mSelectedItemsIds.get(position)? 0x9934B5E4: Color.TRANSPARENT);
+        int color = getContext().getResources().getColor(R.color.SelectedBackground);
+        convertView.setBackgroundColor(mSelectedItemsIds.get(position) ? color : Color.TRANSPARENT);
 
         return convertView;
     }

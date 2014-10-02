@@ -23,15 +23,21 @@ import java.util.List;
 /**
  * Created by Jeff on 9/25/2014.
  * Copyright JeffInMadison.com 2014
+ *
+ * DisplaySchemeFragment is the main ListView for displaying Schemes the user added.
  */
 public class DisplaySchemeFragment extends ListFragment implements ActionMode.Callback, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = DisplaySchemeFragment.class.getSimpleName();
+
     private List<Scheme> mSchemeList;
     private ActionMode mActionMode;
     private DisplaySchemeListener mDisplaySchemeListener;
     private SchemeAdapter mSchemeAdapter;
 
+    /**
+     * Interface to tell containing Activity when events occur.
+     */
     public interface DisplaySchemeListener {
         void onAddSchemeClicked();
         void onItemClicked(Scheme scheme);
@@ -45,13 +51,12 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
         return fragment;
     }
 
-    public DisplaySchemeFragment() {
-        // Required empty public constructor
-    }
+    public DisplaySchemeFragment() { /* Required empty public constructor */ }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mSchemeList = new ArrayList<Scheme>();
         mSchemeAdapter = new SchemeAdapter(getActivity(), mSchemeList);
         setListAdapter(mSchemeAdapter);
@@ -77,6 +82,10 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
         }
     }
 
+    /**
+     * Reloads Schemes from the database and updates the ListView. Can be used to update list when
+     * data was changed externally.
+     */
     public void updateListView() {
         mSchemeList.clear();
         mSchemeList.addAll(DbHelper.getInstance().getAllSchemes());
@@ -110,12 +119,15 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // Set ActionBar to default view in the event it was changed by another activity
         ActionBar actionBar = getActivity().getActionBar();
         assert actionBar != null;
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayShowCustomEnabled(false);
         actionBar.setTitle(R.string.app_name);
         actionBar.setDisplayHomeAsUpEnabled(false);
+
         setEmptyText("No Schemes to display. \nUse the '+' to add one.");
     }
 
@@ -126,7 +138,7 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
                 mDisplaySchemeListener.onItemClicked(mSchemeList.get(position));
             }
         } else {
-            // TODO handle item selection in actionMode
+            // handle item selection in actionMode
             mSchemeAdapter.toggleSelection(position);
 //            boolean hasCheckedItems = mSchemeAdapter.getSelectedCount() > 0;
         }
@@ -175,5 +187,4 @@ public class DisplaySchemeFragment extends ListFragment implements ActionMode.Ca
         mSchemeAdapter.removeSelection();
         mActionMode = null;
     }
-
 }

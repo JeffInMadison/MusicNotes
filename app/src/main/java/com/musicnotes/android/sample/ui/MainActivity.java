@@ -16,7 +16,8 @@ import com.musicnotes.android.sample.ui.preview.PreviewFragment;
 public class MainActivity extends Activity implements
                                                     DisplaySchemeFragment.DisplaySchemeListener,
                                                     AddSchemeFragment.AddSchemeListener,
-                                                    EditFragment.EditSchemeListener {
+                                                    EditFragment.EditSchemeListener,
+                                                    PreviewFragment.PreviewListener {
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -69,11 +70,17 @@ public class MainActivity extends Activity implements
         }
     }
 
+    @Override
+    public void onPreviewFinished() {
+        getFragmentManager().popBackStackImmediate();
+    }
+
+
     private void replaceFragment(final Fragment fragment, final String stackName, boolean animate) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (animate) {
-            fragmentTransaction.setCustomAnimations(R.anim.slide_in, 0, 0, R.anim.slide_out);
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.alpha_out, R.anim.alpha_in, R.anim.slide_out);
         }
         fragmentTransaction.replace(R.id.container, fragment, stackName);
         fragmentTransaction.addToBackStack(null);

@@ -1,6 +1,7 @@
 package com.musicnotes.android.sample.ui.preview;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,9 @@ import com.musicnotes.android.sample.ui.custom.ColorPreviewTabWidget;
 
 import java.util.List;
 
+/**
+ * PreviewFragment is used to display a preview of the colors selected for a Scheme
+ */
 public class PreviewFragment extends Fragment implements ColorPreviewTabWidget.OnTabChangedListener, ViewPager.OnPageChangeListener {
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = PreviewFragment.class.getSimpleName();
@@ -28,6 +32,14 @@ public class PreviewFragment extends Fragment implements ColorPreviewTabWidget.O
     private ViewPager mColorPreviewViewPager;
     private ColorPagerAdapter mPagerAdapter;
     private ColorPreviewTabWidget mTabWidget;
+    private PreviewListener mPreviewListener;
+
+    /**
+     * Interface to tell containing Activity when events occur.
+     */
+    public interface PreviewListener {
+        void onPreviewFinished();
+    }
 
     public static PreviewFragment newInstance(Scheme scheme) {
         PreviewFragment fragment = new PreviewFragment();
@@ -83,13 +95,21 @@ public class PreviewFragment extends Fragment implements ColorPreviewTabWidget.O
     }
 
     @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof PreviewListener) {
+            mPreviewListener = (PreviewListener) activity;
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                getFragmentManager().popBackStack();
-                ActionBar actionBar = getActivity().getActionBar();
-                assert actionBar != null;
-                actionBar.setDisplayHomeAsUpEnabled(false);
+            case R.id.action_done:
+                if (mPreviewListener != null) {
+                    mPreviewListener.onPreviewFinished();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

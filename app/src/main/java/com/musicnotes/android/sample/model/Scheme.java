@@ -42,6 +42,14 @@ public class Scheme implements Parcelable {
         mColorList = colorList;
     }
 
+    public Scheme() { }
+
+
+    /**
+     * Returns an html string where each color is wrapped in a <font color= tag for inserting into
+     * a TextView via Html.fromHtml
+     * @return html String of colors.
+     */
     public String getColorListAsHtmlColoredString() {
         List<String> colorStrings = new ArrayList<String>();
         for (SchemeColor schemeColor : mColorList) {
@@ -50,6 +58,8 @@ public class Scheme implements Parcelable {
         }
         return StringUtils.getCommaSeparatedString(colorStrings, true);
     }
+
+// Parcelable code
 
     @Override
     public int describeContents() {
@@ -61,9 +71,6 @@ public class Scheme implements Parcelable {
         dest.writeInt(this.mId);
         dest.writeString(this.mName);
         dest.writeSerializable(this.mColorList);
-    }
-
-    public Scheme() {
     }
 
     private Scheme(Parcel in) {

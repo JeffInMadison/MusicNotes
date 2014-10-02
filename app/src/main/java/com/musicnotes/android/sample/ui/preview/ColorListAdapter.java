@@ -20,6 +20,7 @@ public class ColorListAdapter extends ArrayAdapter<SchemeColor> {
     private static final String TAG = ColorListAdapter.class.getSimpleName();
 
     public ColorListAdapter(final Activity activity, final List<SchemeColor> colorList) {
+        // intResource is -1 because we will return our own.
         super(activity, -1, colorList);
     }
 

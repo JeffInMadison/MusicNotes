@@ -15,14 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-* Created by Jeff on 9/25/2014.
-* Copyright JeffInMadison.com 2014
-*/
+ * Created by Jeff on 9/25/2014.
+ * Copyright JeffInMadison.com 2014
+ *
+ * ArrayAdapter to return views for available colors to select
+ */
 class SchemeColorAdapter extends ArrayAdapter<SchemeColor> {
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = SchemeColorAdapter.class.getSimpleName();
 
     public SchemeColorAdapter(final Context context, final List<SchemeColor> objects) {
+        // intResource is -1 because we will return our own.
         super(context, -1, objects);
     }
 
@@ -48,6 +51,10 @@ class SchemeColorAdapter extends ArrayAdapter<SchemeColor> {
         return convertView;
     }
 
+    /**
+     * Returns list of SchemeColor to add to Scheme
+     * @return list of selected SchemeColors
+     */
     public List<SchemeColor> getSelectedColors() {
         List<SchemeColor> resultList = new ArrayList<SchemeColor>();
         for (int ii = 0; ii < getCount(); ii++) {

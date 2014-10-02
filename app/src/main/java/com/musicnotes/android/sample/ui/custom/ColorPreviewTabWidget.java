@@ -14,6 +14,10 @@ import com.musicnotes.android.sample.R;
 /**
  * Created by Jeff on 9/27/2014.
  * Copyright JeffInMadison.com 2014
+ *
+ * ColorPreviewTabWidget is a View used to display colors horizontally and allows them to be selected
+ * by a Touch or an external source via setSelectedTab(int position). When selected the view displays
+ * the color larger.
  */
 public class ColorPreviewTabWidget extends TabWidget implements View.OnTouchListener {
     @SuppressWarnings("UnusedDeclaration")
@@ -61,13 +65,20 @@ public class ColorPreviewTabWidget extends TabWidget implements View.OnTouchList
         view.setOnTouchListener(this);
     }
 
+    /**
+     * Sets the selected tab & deselects the rest
+     * @param selectedTab tabView to enlarge
+     */
     public void setSelectedTab(int selectedTab) {
+        // need to go through each one one to enable correct and disable the rest
         for (int ii = 0; ii < getTabCount(); ii++) {
             View tabView = getChildTabViewAt(ii);
             if (ii == selectedTab) {
                 ((ViewSwitcher)tabView).setDisplayedChild(1);
                 mSelectedTab = ii;
-                mOnTabChangedListener.onTabChanged(mSelectedTab);
+                if (mOnTabChangedListener != null) {
+                    mOnTabChangedListener.onTabChanged(mSelectedTab);
+                }
             } else {
                 ((ViewSwitcher)tabView).setDisplayedChild(0);
             }
@@ -76,13 +87,17 @@ public class ColorPreviewTabWidget extends TabWidget implements View.OnTouchList
 
     @Override
     public boolean onTouch(final View view, final MotionEvent event) {
+        // TODO this is very expensive might be a simpler way to handle touch
+        // currently seeing if each touch event x,y is within the view of one in the tabsViews
         for (int ii = 0; ii < getTabCount(); ii++) {
             View tabView = getChildTabViewAt(ii);
             if (doesViewContainsPoints(tabView, event.getRawX(), event.getRawY())) {
                 ((ViewSwitcher)tabView).setDisplayedChild(1);
                 if (mSelectedTab != ii) {
                     mSelectedTab = ii;
-                    mOnTabChangedListener.onTabChanged(mSelectedTab);
+                    if (mOnTabChangedListener != null){
+                        mOnTabChangedListener.onTabChanged(mSelectedTab);
+                    }
                 }
             } else {
                 ((ViewSwitcher)tabView).setDisplayedChild(0);
@@ -98,6 +113,9 @@ public class ColorPreviewTabWidget extends TabWidget implements View.OnTouchList
         return rect.contains((int)rx, (int)ry);
     }
 
+    /**
+     * Internal OnClickListener for each view.
+     */
     private class TabClickListener implements OnClickListener {
         private final int mIndex;
 
@@ -107,10 +125,14 @@ public class ColorPreviewTabWidget extends TabWidget implements View.OnTouchList
 
         @Override
         public void onClick(View view) {
-            if (mOnTabChangedListener != null && mIndex != mSelectedTab) {
+            // if we have a registered listener and we aren't already on the tab select the new one
+            // and inform the listener
+            if (mIndex != mSelectedTab) {
                 mSelectedTab = mIndex;
                 setCurrentTab(mIndex);
-                mOnTabChangedListener.onTabChanged(mIndex);
+                if (mOnTabChangedListener != null) {
+                    mOnTabChangedListener.onTabChanged(mIndex);
+                }
             }
         }
     }
